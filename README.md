@@ -1,4 +1,4 @@
-# AWS Lambda based Hospital Data Update
+# AWS Lambda based Pet Hospital Data Update
 This project is an AWS Lambda function that fetches hospital data from a public API, transforms the data, and then updates a MySQL database. The function is implemented using TypeScript, and the project includes a Github workflow for deployment.
 
 Table of Contents
