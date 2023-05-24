@@ -1,0 +1,30 @@
+{
+  "name": "pnm_hospitalschedule",
+  "version": "1.0.0",
+  "description": "CronJob function for veterinary clinic data collection",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tmdgns107/pnm_hospitalSchedule.git"
+  },
+  "author": "SeungHun",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tmdgns107/pnm_hospitalSchedule/issues"
+  },
+  "homepage": "https://github.com/tmdgns107/pnm_hospitalSchedule#readme",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.115",
+    "@types/node": "^20.2.1",
+    "@vercel/ncc": "^0.36.1"
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "mysql2": "^3.3.1",
+    "pbkdf2": "^3.1.2",
+    "typescript": "^5.0.4"
+  }
+}
