@@ -16,10 +16,8 @@ export const handler: Handler = async (event: APIGatewayProxyEvent): Promise<API
         statusCode: 200,
         body: ''
     };
-    let responseBody: { message: string; userInfo: object };
-    responseBody = {
+    let responseBody: { message: string; } ={
         message: '',
-        userInfo: {}
     };
 
     let connection;
@@ -33,13 +31,15 @@ export const handler: Handler = async (event: APIGatewayProxyEvent): Promise<API
             database: process.env[`${alias.toUpperCase()}_DB_NAME`]
         });
 
+        /** 공공데이터 API 동물병원 조회 **/
         let hospitals: any[] = await util.callPublicAPI();
+        /** 공공데이터 결과를 DB 포맷에 맞게 변경 **/
+        const filteredHospitals: any[] = util.filterHospitals(hospitals);
 
-        const filteredHospitals = util.filterHospitals(hospitals);
-
+        /** 공공데이터를 hospital 테이블에 입력 **/
         for(let hospital of filteredHospitals){
             let insertQuery: string =
-                `INSET INTO ${tableName} 
+                `INSERT INTO ${tableName} 
                     (id, sidoNm, sigunNm, bizPlcNm, roadNmAddr, lotNoAddr, zipCode, lat, lng, status, telNo, updateTime) 
                 VALUES 
                     (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
@@ -47,12 +47,14 @@ export const handler: Handler = async (event: APIGatewayProxyEvent): Promise<API
         }
 
         await util.sleep(100);
+        response.statusCode = 200;
+        responseBody.message = 'The veterinary hospital information update has been completed.';
+        response.body = JSON.stringify(responseBody);
         return response;
     } catch (e) {
         console.log("Error in db connection", e);
         response.statusCode = 400;
         responseBody.message = 'An error occurred while executing the query.';
-        responseBody.userInfo = {};
         response.body = JSON.stringify(responseBody);
         return response;
     } finally {
