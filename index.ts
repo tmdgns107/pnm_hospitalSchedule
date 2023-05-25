@@ -79,6 +79,7 @@ export const handler: Handler = async (event: APIGatewayProxyEvent): Promise<API
         return response;
     } catch (e) {
         console.log("Error in db connection", e);
+
         response.statusCode = 400;
         responseBody.message = 'An error occurred while executing the query.';
         response.body = JSON.stringify(responseBody);
