@@ -7,10 +7,10 @@ export const handler: Handler = async (event: APIGatewayProxyEvent): Promise<API
 
     let alias: string = 'dev';
     let tableName: string = 'hospital_test';
-    if(event.requestContext.path.includes('/prod/') || event.requestContext.path.includes('/live/')) {
-        alias = 'prod';
-        tableName = 'hospital';
-    }
+    // if(event.requestContext.path.includes('/prod/') || event.requestContext.path.includes('/live/')) {
+    //     alias = 'prod';
+    //     tableName = 'hospital';
+    // }
 
     let response: APIGatewayProxyResultV2 = {
         statusCode: 200,
