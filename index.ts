@@ -36,6 +36,9 @@ export const handler: Handler = async (event: APIGatewayProxyEvent): Promise<API
         /** 공공데이터 결과를 DB 포맷에 맞게 변경 **/
         const filteredHospitals: any[] = util.filterHospitals(hospitals);
 
+        console.log("filteredHospitals count", filteredHospitals.length);
+        console.log("filteredHospitals", filteredHospitals);
+
         /** 공공데이터를 hospital 테이블에 입력 **/
         for(let hospital of filteredHospitals){
             let insertQuery: string =
