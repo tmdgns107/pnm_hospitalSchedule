@@ -34,4 +34,3 @@ jobs:
       - name: Publish Lambda Function Version
         run: |
           VERSION=$(aws lambda publish-version --function-name petNmatHospitalApiSchedule --query 'Version' --output text)
-          aws lambda update-alias --function-name petNmatHospitalApiSchedule --name prod --function-version $VERSION
