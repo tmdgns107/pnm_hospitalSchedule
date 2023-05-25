@@ -24,8 +24,14 @@ jobs:
           CI: true
         run: |
           npm ci
-      - name: deploy
+      - name: Build
         run: |
           npx ncc build index.ts
           zip -j deploy.zip ./dist/*
-          aws lambda update-function-code --function-name=petNmatHospitalApiSchedule --zip-file=fileb://deploy.zip
+      - name: Update Lambda Function Code
+        run: |
+          aws lambda update-function-code --function-name petNmatHospitalApiSchedule --zip-file fileb://deploy.zip
+      - name: Publish Lambda Function Version
+        run: |
+          VERSION=$(aws lambda publish-version --function-name petNmatHospitalApiSchedule --query 'Version' --output text)
+          aws lambda update-alias --function-name petNmatHospitalApiSchedule --name prod --function-version $VERSION
