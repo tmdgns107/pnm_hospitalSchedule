@@ -41,11 +41,14 @@ export const handler: Handler = async (event: APIGatewayProxyEvent): Promise<API
 
             /** 기존에 병원데이터가 존재하는지 여부 확인 **/
             let searchQuery: string = `SELECT * FROM ${tableName} WHERE id = ?`
-            const existingHospital = await util.queryMySQL(connection, searchQuery, [hospital.id]);
-            console.log(`existingHospital ${id} type: ${typeof existingHospital}, result: ${existingHospital}`);
+            // const existingHospital = await util.queryMySQL(connection, searchQuery, [hospital.id]);
+            let searchResult = await connection.execute(searchQuery, [id]);
+            console.log("searchResult", searchResult);
+            // console.log(`existingHospital ${id} type: ${typeof existingHospital}, result: ${existingHospital}`);
 
-            if(existingHospital){
+            if(searchResult && searchResult.length > 0){
                 /** 이미 병원이 존재한다면 데이터를 업데이트 진행 **/
+                console.log("Exist hospital");
                 const updateQuery: string =
                     `UPDATE ${tableName} SET 
                         sidoNm = ?, sigunNm = ?, bizPlcNm = ?, roadNmAddr = ?, 
@@ -67,6 +70,7 @@ export const handler: Handler = async (event: APIGatewayProxyEvent): Promise<API
                 console.log(`A new row has been updated. id: ${id}`);
             }else{
                 /** 이미 병원이 존재하지 않는다면 데이터를 삽입 진행 **/
+                console.log("Not exist hospital");
                 let insertQuery: string =
                     `INSERT INTO ${tableName} 
                     (id, sidoNm, sigunNm, bizPlcNm, roadNmAddr, lotNoAddr, zipCode, lat, lng, status, telNo, createTime, updateTime) 
