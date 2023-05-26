@@ -78,6 +78,7 @@ export const handler: Handler = async (event: APIGatewayProxyEvent): Promise<API
                     (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
                 console.log(`insertQuery ${id}`, insertQuery);
+                hospital.createTime = hospital.updateTime;
                 let values: string[] = [];
                 for(let key in hospital)
                     values.push(hospital[key]);
