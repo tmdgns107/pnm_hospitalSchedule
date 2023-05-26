@@ -58,7 +58,9 @@ export const handler: Handler = async (event: APIGatewayProxyEvent): Promise<API
                 // delete hospital.id;
 
                 console.log(`updateQuery ${id}`, updateQuery);
-                let values = hospital.values();
+                let values: string[] = [];
+                for(let key in hospital)
+                    values.push(hospital[key]);
                 console.log("values", values);
                 await util.queryMySQL(connection, updateQuery, values);
 
@@ -72,7 +74,9 @@ export const handler: Handler = async (event: APIGatewayProxyEvent): Promise<API
                     (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
                 console.log(`insertQuery ${id}`, insertQuery);
-                let values = hospital.values();
+                let values: string[] = [];
+                for(let key in hospital)
+                    values.push(hospital[key]);
                 console.log("values", values);
                 await util.queryMySQL(connection, insertQuery, values);
 
