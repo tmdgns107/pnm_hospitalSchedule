@@ -56,7 +56,7 @@ export const handler: Handler = async (event: APIGatewayProxyEvent): Promise<API
 
                 delete hospital.createTime;
                 delete hospital.id;
-                await util.queryMySQL(connection, updateQuery, [...hospital.values, id]);
+                await util.queryMySQL(connection, updateQuery, [...hospital.values(), id]);
 
                 console.log(`A new row has been updated. id: ${id}`);
             }else{
@@ -66,7 +66,7 @@ export const handler: Handler = async (event: APIGatewayProxyEvent): Promise<API
                     (id, sidoNm, sigunNm, bizPlcNm, roadNmAddr, lotNoAddr, zipCode, lat, lng, status, telNo, createTime, updateTime) 
                 VALUES 
                     (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
-                await util.queryMySQL(connection, insertQuery, hospital.values);
+                await util.queryMySQL(connection, insertQuery, hospital.values());
 
                 console.log(`A new row has been inserted. id: ${id}`);
             }
