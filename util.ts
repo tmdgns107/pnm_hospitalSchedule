@@ -70,7 +70,7 @@ export function filterHospitals(hospitals: any[]): any[] {
             bizPlcNm: item.BIZPLC_NM,
             roadNmAddr: item.REFINE_ROADNM_ADDR,
             lotNoAddr: item.REFINE_LOTNO_ADDR,
-            zipCode: item.REFINE_ZIPNO,
+            zipCode: item.REFINE_ZIP_CD,
             lat: item.REFINE_WGS84_LAT,
             lng: item.REFINE_WGS84_LOGT,
             status: item.BSN_STATE_NM,
