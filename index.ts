@@ -43,10 +43,10 @@ export const handler: Handler = async (event: APIGatewayProxyEvent): Promise<API
             let searchQuery: string = `SELECT * FROM ${tableName} WHERE id = ?`
             // const existingHospital = await util.queryMySQL(connection, searchQuery, [hospital.id]);
             let searchResult = await connection.execute(searchQuery, [id]);
-            console.log("searchResult", searchResult);
+            console.log("searchResult", searchResult[0]);
             // console.log(`existingHospital ${id} type: ${typeof existingHospital}, result: ${existingHospital}`);
 
-            if(searchResult && searchResult.length > 0){
+            if(searchResult && searchResult[0] && searchResult[0].length > 0){
                 /** 이미 병원이 존재한다면 데이터를 업데이트 진행 **/
                 console.log("Exist hospital");
                 const updateQuery: string =
