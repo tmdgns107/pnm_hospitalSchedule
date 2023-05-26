@@ -59,6 +59,7 @@ export const handler: Handler = async (event: APIGatewayProxyEvent): Promise<API
 
                 console.log(`updateQuery ${id}`, updateQuery);
                 let values = hospital.values();
+                console.log("values", values);
                 await util.queryMySQL(connection, updateQuery, values);
 
                 console.log(`A new row has been updated. id: ${id}`);
@@ -72,6 +73,7 @@ export const handler: Handler = async (event: APIGatewayProxyEvent): Promise<API
 
                 console.log(`insertQuery ${id}`, insertQuery);
                 let values = hospital.values();
+                console.log("values", values);
                 await util.queryMySQL(connection, insertQuery, values);
 
                 console.log(`A new row has been inserted. id: ${id}`);
