@@ -6,7 +6,7 @@ export const handler: Handler = async (event: APIGatewayProxyEvent): Promise<API
     console.log("Event", event);
 
     let alias: string = 'dev';
-    let tableName: string = 'hospital_test';
+    let tableName: string = 'hospitals_test';
 
     let response: APIGatewayProxyResultV2 = {
         statusCode: 200,
