@@ -1,12 +1,14 @@
-import { APIGatewayProxyEvent, APIGatewayProxyResultV2, Handler } from 'aws-lambda';
+import { APIGatewayProxyResultV2, Handler } from 'aws-lambda';
 import mysql from 'mysql2/promise';
 import * as util from "./util";
 
-export const handler: Handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResultV2> => {
+export const handler: Handler = async (event: any): Promise<APIGatewayProxyResultV2> => {
     console.log("Event", event);
 
     let alias: string = 'dev';
     let tableName: string = 'hospitals_test';
+    if(event.alias && event.alias === 'prod')
+        tableName = 'hospitals';
 
     let response: APIGatewayProxyResultV2 = {
         statusCode: 200,
