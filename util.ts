@@ -54,13 +54,14 @@ export async function callPublicAPI(): Promise<any[]>{
     }
 }
 
-/** API Response에서 폐업은 제외하고 전달하도록 한다. **/
+/** API Response에서 폐업은 제외하고 전달하도록 한다.
+ * >> 2023.05.29 폐업도 포함시키기로 한다. **/
 export function filterHospitals(hospitals: any[]): any[] {
     try{
         const updateTime: string = new Date().toISOString();
         return hospitals.filter(item => {
             /** 폐업이 아니고, REFINE_ROADNM_ADDR 값이 있어야 return **/
-            if (!item.BSN_STATE_NM.includes('폐업') && item.REFINE_ROADNM_ADDR)
+            if (item.REFINE_ROADNM_ADDR)
                 return item;
         }).map(item => ({
             /** DB에 넣기 위한 데이터 포맷 변경 **/
@@ -70,6 +71,7 @@ export function filterHospitals(hospitals: any[]): any[] {
             bizPlcNm: item.BIZPLC_NM,
             roadNmAddr: item.REFINE_ROADNM_ADDR,
             lotNoAddr: item.REFINE_LOTNO_ADDR,
+            bsnState: item.BSN_STATE_NM.includes('폐업') ? '폐업' : item.BSN_STATE_NM,
             zipCode: item.REFINE_ZIP_CD,
             lat: item.REFINE_WGS84_LAT,
             lng: item.REFINE_WGS84_LOGT,
