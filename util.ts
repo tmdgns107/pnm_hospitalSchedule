@@ -71,11 +71,10 @@ export function filterHospitals(hospitals: any[]): any[] {
             bizPlcNm: item.BIZPLC_NM,
             roadNmAddr: item.REFINE_ROADNM_ADDR,
             lotNoAddr: item.REFINE_LOTNO_ADDR,
-            bsnState: item.BSN_STATE_NM.includes('폐업') ? '폐업' : item.BSN_STATE_NM,
             zipCode: item.REFINE_ZIP_CD,
             lat: item.REFINE_WGS84_LAT,
             lng: item.REFINE_WGS84_LOGT,
-            status: item.BSN_STATE_NM,
+            status: item.BSN_STATE_NM.includes('폐업') ? '폐업' : item.BSN_STATE_NM,
             telNo: item.LOCPLC_FACLT_TELNO,
             updateTime: updateTime
         }));
