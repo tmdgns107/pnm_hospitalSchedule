@@ -39,8 +39,9 @@ export async function callPublicAPI(searchType: string): Promise<any[]>{
             let columnName: string = 'Animalhosptl';
             if(searchType === 'pharmacies')
                 columnName = 'AnimalPharmacy';
+            console.log("columnName", columnName);
 
-            if(!results.data || (results.data && results.data[columnName])){
+            if(!results.data || (results.data && !results.data[columnName])){
                 console.log("Data not exist");
                 continue;
             }
