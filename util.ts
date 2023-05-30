@@ -13,7 +13,7 @@ export async function queryMySQL(connection: any, query: string, values: any): P
 }
 
 /** 경기도 공공데이터 API 호출 **/
-export async function callPublicAPI(): Promise<any[]>{
+export async function callPublicAPI(searchType: string): Promise<any[]>{
     try{
         const PUBLIC_API_KEY = process.env.PUBLIC_API_KEY;
         const pageSize: number = 1000;
@@ -21,25 +21,33 @@ export async function callPublicAPI(): Promise<any[]>{
         for(let pageIndex: number = 1; pageIndex <= 10; pageIndex++){
             /** 경기도 공공데이터 API URL에서 queryString으로 pSize, pIndex를 전달하도록 한다.
              * pIndex: 1 부터, pSize: 최대 1,000까지 **/
-            const url: string = `https://openapi.gg.go.kr/Animalhosptl?key=${PUBLIC_API_KEY}&type=json&pSize=${pageSize}&pIndex=${pageIndex}`;
+            let apiUrl: string = 'https://openapi.gg.go.kr/Animalhosptl';
+            if(searchType === 'pharmacies')
+                apiUrl = 'https://openapi.gg.go.kr/AnimalPharmacy';
+
+            const axiosUrl: string = `${apiUrl}?key=${PUBLIC_API_KEY}&type=json&pSize=${pageSize}&pIndex=${pageIndex}`;
             let config: object = {
                 maxBodyLength: Infinity,
                 headers: {}
             };
             console.log("config", config);
 
-            let results = await axios.get(url, config);
+            let results = await axios.get(axiosUrl, config);
             console.log("results", results);
 
-            /** API Response에서 Animalhosptl 값은 반드시 존재해야 한다. **/
-            if(!results.data || (results.data && !results.data.Animalhosptl)){
+            /** API Response에서 Animalhosptl 또는 AnimalPharmacy 값은 반드시 존재해야 한다. **/
+            let columnName: string = 'Animalhosptl';
+            if(searchType === 'pharmacies')
+                columnName = 'AnimalPharmacy';
+
+            if(!results.data || (results.data && results.data[columnName])){
                 console.log("Data not exist");
                 continue;
             }
 
             /** list_total_count 값은 페이지네이션과 상관없이 경기도 동물병원의 전체 갯수 **/
-            const listTotalCount = results.data.Animalhosptl[0].head[0].list_total_count;
-            array = [...array, ...results.data.Animalhosptl[1].row];
+            const listTotalCount = results.data[columnName][0].head[0].list_total_count;
+            array = [...array, ...results.data[columnName][1].row];
 
             if(array.length >= listTotalCount){
                 console.log("Search finished", pageIndex);
